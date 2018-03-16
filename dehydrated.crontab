@@ -1,0 +1,1 @@
+* * * * * root /usr/bin/dehydrated --cron 1>/dev/stdout 2>/dev/stderr
