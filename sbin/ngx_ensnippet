@@ -34,7 +34,7 @@ then
         exit 1
     fi
     echo "Enabling snippet: '${SNIPPET}'..."
-    ln -sf "${SNIPPET_FILE}" "${TARGET}"
+    ln -sf "${SNIPPET_FILE}" "${SITE_FILE}"
 else
     echo "Error: snippet not found: '${SNIPPET}'"
     exit 1
