@@ -30,8 +30,4 @@ COPY run.sh /run.sh
 EXPOSE 80
 STOPSIGNAL SIGTERM
 
-ENV DOCUMENT_ROOT /var/www/html
-ENV SITE_URL http://localhost
-
 CMD ["/run.sh"]
-
