@@ -21,7 +21,7 @@ RUN \
     ln -sf /var/lib/dehydrated/certs /etc/nginx/certs && \
     touch /etc/dehydrated/domains.txt
 
-
+COPY sbin/ /usr/local/sbin/
 COPY dehydrated/ /etc/dehydrated/
 COPY nginx/ /etc/nginx/
 COPY dehydrated.crontab /etc/cron.d/dehydrated

@@ -1,0 +1,29 @@
+#!/bin/sh
+set -e
+
+#
+# Disable nginx snippet by removing symlink from site directory
+# which is used by default site configuration provided by
+# docker-nginx image
+#
+
+[ "$(id -u)" != "0" ] && echo "You must be root to use this script!" && exit 1
+
+CFG_PATH="/etc/nginx"
+SITE_PATH="${CFG_PATH}/site.d"
+
+usage() {
+    echo "usage: $0 <snippet>"
+}
+
+TARGET="${1}}"
+[ -z "${TARGET}" ] && usage && exit 1
+
+
+SITE_FILE="${SITE_PATH}/${TARGET}.conf"
+
+if [ -h "${SITE_FILE}" ]
+then
+    echo "Removing snippet: '${SNIPPET}'"
+    rm "${SITE_FILE}"
+fi

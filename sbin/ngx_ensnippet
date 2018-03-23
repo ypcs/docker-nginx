@@ -1,0 +1,41 @@
+#!/bin/sh
+set -e
+
+#
+# Enable nginx snippet by symlinking from snippet directory
+# to site directory, which is used by the site template provided by
+# docker-nginx image.
+#
+
+[ "$(id -u)" != "0" ] && echo "You must be root to use this script!" && exit 1
+
+CFG_PATH="/etc/nginx"
+SNIPPET_PATH="${CFG_PATH}/snippets"
+SITE_PATH="${CFG_PATH}/site.d"
+
+usage() {
+    echo "usage: $0 <snippet> [target]"
+}
+
+SNIPPET="$1"
+TARGET="${2:-${SNIPPET}}"
+[ -z "${SNIPPET}" ] && usage && exit 1
+[ -z "${TARGET}" ] && usage && exit 1
+
+
+SNIPPET_FILE="${SNIPPET_PATH}/${SNIPPET}.conf"
+SITE_FILE="${SITE_PATH}/${TARGET}.conf"
+
+if [ -f "${SNIPPET_FILE}" ]
+then
+    if [ -e "${SITE_FILE}" ]
+    then
+        echo "Error: target already exists: '${TARGET}'"
+        exit 1
+    fi
+    echo "Enabling snippet: '${SNIPPET}'..."
+    ln -sf "${SNIPPET_FILE}" "${TARGET}"
+else
+    echo "Error: snippet not found: '${SNIPPET}'"
+    exit 1
+fi
