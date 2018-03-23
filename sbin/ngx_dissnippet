@@ -26,4 +26,6 @@ if [ -h "${SITE_FILE}" ]
 then
     echo "Removing snippet: '${SNIPPET}'"
     rm "${SITE_FILE}"
+else
+    echo "Error: Can't remove snippet: '${SNIPPET}', is not symlink, or doesn't exist."
 fi
