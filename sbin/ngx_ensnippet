@@ -30,8 +30,8 @@ if [ -f "${SNIPPET_FILE}" ]
 then
     if [ -e "${SITE_FILE}" ]
     then
-        echo "Error: target already exists: '${TARGET}'"
-        exit 1
+        echo "Warning: target already exists: '${TARGET}', skipping."
+        exit 0
     fi
     echo "Enabling snippet: '${SNIPPET}'..."
     ln -sf "${SNIPPET_FILE}" "${SITE_FILE}"
