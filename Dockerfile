@@ -31,4 +31,4 @@ EXPOSE 80
 STOPSIGNAL SIGTERM
 
 CMD ["/run.sh"]
-RUN echo "Source: https://github.com/ypcs/docker-nginx\nBuild date: $(date +%Y-%m-%d\ %H:%M:%S)" >/README
+RUN echo "Source: https://github.com/ypcs/docker-nginx\nBuild date: $(date --iso-8601=ns)" >/README
