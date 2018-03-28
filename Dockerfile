@@ -27,7 +27,6 @@ COPY nginx/ /etc/nginx/
 COPY dehydrated.crontab /etc/cron.d/dehydrated
 COPY run.sh /run.sh
 
-EXPOSE 80
 STOPSIGNAL SIGTERM
 
 CMD ["/run.sh"]
