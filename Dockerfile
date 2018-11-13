@@ -1,4 +1,4 @@
-FROM ypcs/debian:stretch
+FROM ypcs/debian:buster
 
 ARG VCS_REF
 LABEL org.label-schema.vcs-ref=$VCS_REF
