@@ -4,14 +4,13 @@ ARG VCS_REF
 LABEL org.label-schema.vcs-ref=$VCS_REF
 
 RUN \
-    /usr/local/sbin/docker-upgrade && \
-    apt-get update && \
-    apt-get upgrade -y && \
+    /usr/llib/docker-helpers/apt-setup && \
+    /usr/llib/docker-helpers/apt-upgrade && \
     apt-get install --no-install-recommends --no-install-suggests --assume-yes \
         cron \
         dehydrated \
         nginx-full && \
-    /usr/local/sbin/docker-cleanup
+    /usr/llib/docker-helpers/apt-cleanup
 
 RUN \
     ln -sf /dev/stdout /var/log/nginx/access.log && \
