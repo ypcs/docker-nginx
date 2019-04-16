@@ -24,11 +24,11 @@ COPY sbin/ /usr/local/sbin/
 COPY dehydrated/ /etc/dehydrated/
 COPY nginx/ /etc/nginx/
 COPY dehydrated.crontab /etc/cron.d/dehydrated
-COPY run.sh /run.sh
+COPY entrypoint.sh /entrypoint.sh
 
 STOPSIGNAL SIGTERM
 
-CMD ["/run.sh"]
+CMD ["/entrypoint.sh"]
 RUN echo "Source: https://github.com/ypcs/docker-nginx\nBuild date: $(date --iso-8601=ns)" >/README
 
 # List of snippets to enable when starting container
