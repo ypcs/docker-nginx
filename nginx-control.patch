@@ -1,0 +1,21 @@
+--- debian/control.orig	2019-04-17 11:22:46.570410281 +0000
++++ debian/control	2019-04-17 11:24:00.106797267 +0000
+@@ -390,3 +390,17 @@
+   - Stream relay support via a push or pull model;
+   - Integrated stream recording;
+   - and more.
++
++Package: libnginx-mod-modsecurity
++Architecture: any
++Depends: ${misc:Depends}, ${shlibs:Depends}, libmodsecurity3
++Recommends: modsecurity-crs
++Description: ModSecurity support for Nginx
++ The nginx ModSecurity module is a web application firewall for
++ nginx.
++ .
++ It provides the following features:
++  - please
++  - see
++  - upstream
++  - documentation
++  - https://github.com/SpiderLabs/ModSecurity-nginx

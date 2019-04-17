@@ -1,14 +1,55 @@
-FROM ypcs/debian:buster
+FROM ypcs/debian:buster AS nginx-build
 
+ARG APT_PROXY
 ARG VCS_REF
 LABEL org.label-schema.vcs-ref=$VCS_REF
 
 RUN sed -i 's/^#deb-src/deb-src/g' /etc/apt/sources.list && \
     /usr/lib/docker-helpers/apt-setup && \
     /usr/lib/docker-helpers/apt-upgrade && \
+    apt-get --assume-yes install \
+        build-essential \
+        git \
+        packaging-dev \
+        patch && \
+    /usr/lib/docker-helpers/apt-cleanup
+
+WORKDIR /usr/src
+
+RUN /usr/lib/docker-helpers/apt-setup && \
+    apt-get install --assume-yes libmodsecurity3 libmodsecurity-dev && \
+    apt-get build-dep --assume-yes nginx libmodsecurity3 && \
+    apt-get source nginx libmodsecurity3 && \
+    /usr/lib/docker-helpers/apt-cleanup
+
+RUN mkdir -p /usr/src/patches
+
+COPY nginx-*.patch /usr/src/patches/
+
+ENV DEBFULLNAME "Ville Korhonen"
+ENV DEBEMAIL ville@xd.fi
+
+RUN cd nginx-* && \
+    cd debian/modules && \
+    git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx modsecurity && \
+    cd ../.. && \
+    patch -p0 < /usr/src/patches/nginx-rules.patch && \
+    patch -p0 < /usr/src/patches/nginx-control.patch && \
+    debchange --nmu "Add ModSecurity module" && \
+    dpkg-buildpackage -us -uc
+
+FROM ypcs/debian:buster AS nginx
+
+COPY --from=nginx-build /usr/src/libnginx-mod-modsecurity*.deb /tmp/
+
+RUN /usr/lib/docker-helpers/apt-setup && \
+    /usr/lib/docker-helpers/apt-upgrade && \
+    dpkg -i /tmp/libnginx-mod-modsecurity*.deb ; \
+    apt-get -f --assume-yes install && \
     apt-get install --no-install-recommends --no-install-suggests --assume-yes \
         cron \
         dehydrated \
+        libmodsecurity3 \
         nginx-full && \
     /usr/lib/docker-helpers/apt-cleanup
 

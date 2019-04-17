@@ -1,0 +1,11 @@
+--- debian/rules.orig	2019-04-17 11:17:41.512818356 +0000
++++ debian/rules	2019-04-17 11:19:23.777349145 +0000
+@@ -23,6 +23,7 @@
+ 	http-upstream-fair \
+ 	http-xslt-filter \
+ 	mail \
++        modsecurity \
+ 	nchan \
+ 	rtmp \
+ 	stream
+
