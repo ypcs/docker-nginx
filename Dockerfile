@@ -25,16 +25,18 @@ RUN /usr/lib/docker-helpers/apt-setup && \
 RUN mkdir -p /usr/src/patches
 
 COPY nginx-*.patch /usr/src/patches/
+COPY libnginx-mod-modsecurity.nginx /usr/src/patches/
 
 ENV DEBFULLNAME "Ville Korhonen"
 ENV DEBEMAIL ville@xd.fi
 
 RUN cd nginx-* && \
     cd debian/modules && \
-    git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx modsecurity && \
+    git clone --depth 1 https://github.com/SpiderLabs/ModSecurity-nginx http-modsecurity && \
     cd ../.. && \
     patch -p0 < /usr/src/patches/nginx-rules.patch && \
     patch -p0 < /usr/src/patches/nginx-control.patch && \
+    cp /usr/src/patches/libnginx-mod-modsecurity.nginx debian/ && \
     debchange --nmu "Add ModSecurity module" && \
     dpkg-buildpackage -us -uc
 
@@ -44,7 +46,7 @@ RUN mkdir -p /tmp/nginx-packages
 
 COPY --from=nginx-build /usr/src/*.deb /tmp/nginx-packages/
 
-ENV NGINX_PACKAGES "nginx nginx-common libnginx-mod-http-echo libnginx-mod-modsecurity"
+ENV NGINX_PACKAGES "nginx nginx-light nginx-common libnginx-mod-http-echo libnginx-mod-http-modsecurity"
 
 RUN /usr/lib/docker-helpers/apt-setup && \
     /usr/lib/docker-helpers/apt-upgrade && \
@@ -63,7 +65,7 @@ RUN /usr/lib/docker-helpers/apt-setup && \
         modsecurity-crs && \
     /usr/lib/docker-helpers/apt-cleanup
 
-RUN dpkg --get-selections |grep -v deinstall |grep -q libnginx-mod-modsecurity
+RUN dpkg --get-selections |grep -v deinstall |grep -q libnginx-mod-http-modsecurity
 
 RUN \
     ln -sf /dev/stdout /var/log/nginx/access.log && \

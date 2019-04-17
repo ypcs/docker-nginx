@@ -5,7 +5,7 @@
    - Integrated stream recording;
    - and more.
 +
-+Package: libnginx-mod-modsecurity
++Package: libnginx-mod-http-modsecurity
 +Architecture: any
 +Depends: ${misc:Depends}, ${shlibs:Depends}, libmodsecurity3
 +Recommends: modsecurity-crs

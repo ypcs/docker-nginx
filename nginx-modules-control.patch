@@ -1,0 +1,10 @@
+--- debian/modules/control.orig	2019-04-17 12:55:04.227089221 +0000
++++ debian/modules/control	2019-04-17 12:54:47.631009500 +0000
+@@ -67,3 +67,7 @@
+ Homepage: https://github.com/arut/nginx-rtmp-module
+ Files-Excluded: test
+ Version: 1.2.1
++
++Module: http-modsecurity
++Homepage: https://github.com/SpiderLabs/ModSecurity-nginx
++Version: 1.0.0-d7101e1

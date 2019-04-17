@@ -1,11 +1,41 @@
---- debian/rules.orig	2019-04-17 11:17:41.512818356 +0000
-+++ debian/rules	2019-04-17 11:19:23.777349145 +0000
+--- debian/rules.orig	2019-04-17 13:29:49.547392020 +0000
++++ debian/rules	2019-04-17 13:30:35.415702756 +0000
 @@ -23,6 +23,7 @@
  	http-upstream-fair \
  	http-xslt-filter \
  	mail \
-+        modsecurity \
++        http-modsecurity \
  	nchan \
  	rtmp \
  	stream
+@@ -82,7 +83,8 @@
+ 			--without-http_referer_module \
+ 			--without-http_split_clients_module \
+ 			--without-http_userid_module \
+-			--add-dynamic-module=$(MODULESDIR)/http-echo
++			--add-dynamic-module=$(MODULESDIR)/http-echo \
++			--add-dynamic-module=$(MODULESDIR)/http-modsecurity
+ 
+ full_configure_flags := \
+ 			$(common_configure_flags) \
+@@ -102,7 +104,8 @@
+ 			--add-dynamic-module=$(MODULESDIR)/http-dav-ext \
+ 			--add-dynamic-module=$(MODULESDIR)/http-echo \
+ 			--add-dynamic-module=$(MODULESDIR)/http-upstream-fair \
+-			--add-dynamic-module=$(MODULESDIR)/http-subs-filter
++			--add-dynamic-module=$(MODULESDIR)/http-subs-filter \
++			--add-dynamic-module=$(MODULESDIR)/http-modsecurity
+ 
+ extras_configure_flags := \
+ 			$(common_configure_flags) \
+@@ -135,7 +138,8 @@
+ 			--add-dynamic-module=$(MODULESDIR)/rtmp \
+ 			--add-dynamic-module=$(MODULESDIR)/http-uploadprogress \
+ 			--add-dynamic-module=$(MODULESDIR)/http-upstream-fair \
+-			--add-dynamic-module=$(MODULESDIR)/http-subs-filter
++			--add-dynamic-module=$(MODULESDIR)/http-subs-filter \
++			--add-dynamic-module=$(MODULESDIR)/http-modsecurity
+ 
+ %:
+ 	dh $@ --without autoreconf
 
