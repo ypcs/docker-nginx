@@ -3,7 +3,7 @@ FROM ypcs/debian:buster
 ARG VCS_REF
 LABEL org.label-schema.vcs-ref=$VCS_REF
 
-RUN \
+RUN sed -i 's/^#deb-src/deb-src/g' /etc/apt/sources.list && \
     /usr/lib/docker-helpers/apt-setup && \
     /usr/lib/docker-helpers/apt-upgrade && \
     apt-get install --no-install-recommends --no-install-suggests --assume-yes \
