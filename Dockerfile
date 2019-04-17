@@ -40,19 +40,27 @@ RUN cd nginx-* && \
 
 FROM ypcs/debian:buster AS nginx
 
-COPY --from=nginx-build /usr/src/libnginx-mod-modsecurity*.deb /tmp/
+RUN mkdir -p /tmp/nginx-packages
+
+COPY --from=nginx-build /usr/src/*.deb /tmp/nginx-packages/
+
+ENV NGINX_PACKAGES "nginx nginx-common libnginx-mod-http-echo libnginx-mod-modsecurity"
 
 RUN /usr/lib/docker-helpers/apt-setup && \
     /usr/lib/docker-helpers/apt-upgrade && \
-    dpkg -i /tmp/libnginx-mod-modsecurity*.deb ; \
-    rm -rf /tmp/libnginx-mod-modsecurity*.deb && \
+    cd /tmp/nginx-packages && \
+    for pkg in ${NGINX_PACKAGES} ; \
+    do \
+        dpkg -i ${pkg}_*.deb ; \
+    done ; \
+    cd .. && \
+    rm -rf /tmp/nginx-packages && \
     apt-get -f --assume-yes install && \
     apt-get install --no-install-recommends --no-install-suggests --assume-yes \
         cron \
         dehydrated \
         libmodsecurity3 \
-        modsecurity-crs \
-        nginx-full && \
+        modsecurity-crs && \
     /usr/lib/docker-helpers/apt-cleanup
 
 RUN dpkg --get-selections |grep -v deinstall |grep -q libnginx-mod-modsecurity
