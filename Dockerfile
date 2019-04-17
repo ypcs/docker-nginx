@@ -53,6 +53,8 @@ RUN /usr/lib/docker-helpers/apt-setup && \
         nginx-full && \
     /usr/lib/docker-helpers/apt-cleanup
 
+RUN dpkg --get-selections |grep -v deinstall |grep -q libnginx-mod-modsecurity
+
 RUN \
     ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
