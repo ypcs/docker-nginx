@@ -50,6 +50,7 @@ RUN /usr/lib/docker-helpers/apt-setup && \
         cron \
         dehydrated \
         libmodsecurity3 \
+        modsecurity-crs \
         nginx-full && \
     /usr/lib/docker-helpers/apt-cleanup
 
