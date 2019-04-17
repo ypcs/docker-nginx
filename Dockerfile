@@ -45,6 +45,7 @@ COPY --from=nginx-build /usr/src/libnginx-mod-modsecurity*.deb /tmp/
 RUN /usr/lib/docker-helpers/apt-setup && \
     /usr/lib/docker-helpers/apt-upgrade && \
     dpkg -i /tmp/libnginx-mod-modsecurity*.deb ; \
+    rm -rf /tmp/libnginx-mod-modsecurity*.deb && \
     apt-get -f --assume-yes install && \
     apt-get install --no-install-recommends --no-install-suggests --assume-yes \
         cron \
@@ -69,6 +70,8 @@ COPY dehydrated/ /etc/dehydrated/
 COPY nginx/ /etc/nginx/
 COPY dehydrated.crontab /etc/cron.d/dehydrated
 COPY entrypoint.sh /entrypoint.sh
+
+COPY modsecurity.conf /etc/modsecurity/modsecurity.conf
 
 STOPSIGNAL SIGTERM
 
