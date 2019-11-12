@@ -4,7 +4,7 @@ Almost like "batteries included".
 
 Container includes
 
- - nginx from debian stretch
+ - nginx from Debian 11 (bullseye)
  - dehydrated Let's Encrypt client
  - cron for running dehydrated
 
