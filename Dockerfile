@@ -32,4 +32,4 @@ CMD ["/run.sh"]
 RUN echo "Source: https://github.com/ypcs/docker-nginx\nBuild date: $(date --iso-8601=ns)" >/README
 
 # List of snippets to enable when starting container
-ENV NGINX_SNIPPETS ""
+ENV NGINX_SNIPPETS "try_files"
