@@ -14,8 +14,7 @@ RUN \
 
 RUN \
     ln -sf /dev/stdout /var/log/nginx/access.log && \
-    ln -sf /dev/stderr /var/log/nginx/error.log && \
-    ln -sf /var/www/html /docroot
+    ln -sf /dev/stderr /var/log/nginx/error.log
 
 RUN \
     ln -sf /var/lib/dehydrated/certs /etc/nginx/certs && \
