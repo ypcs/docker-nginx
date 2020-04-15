@@ -8,6 +8,7 @@ RUN \
     /usr/lib/docker-helpers/apt-upgrade && \
     apt-get install --no-install-recommends --no-install-suggests --assume-yes \
         cron \
+        curl \
         dehydrated \
         nginx-full && \
     /usr/lib/docker-helpers/apt-cleanup
@@ -34,3 +35,5 @@ RUN echo "Source: https://github.com/ypcs/docker-nginx\nBuild date: $(date --iso
 
 # List of snippets to enable when starting container
 ENV NGINX_SNIPPETS "try_files"
+
+HEALTHCHECK --interval=10s --timeout=5s --start-period=5s --retries=3 CMD curl -f http://localhost/ || exit 1
