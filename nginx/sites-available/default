@@ -1,3 +1,5 @@
+include /etc/nginx/http.d/*.conf;
+
 server {
     include /etc/nginx/site.d/*.conf;
 }
