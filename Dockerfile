@@ -7,9 +7,7 @@ RUN \
     /usr/lib/docker-helpers/apt-setup && \
     /usr/lib/docker-helpers/apt-upgrade && \
     apt-get install --no-install-recommends --no-install-suggests --assume-yes \
-        cron \
         curl \
-        dehydrated \
         nginx-full && \
     /usr/lib/docker-helpers/apt-cleanup
 
@@ -18,14 +16,8 @@ RUN \
     ln -sf /dev/stderr /var/log/nginx/error.log && \
     ln -sf /var/www/html /docroot
 
-RUN \
-    ln -sf /var/lib/dehydrated/certs /etc/nginx/certs && \
-    touch /etc/dehydrated/domains.txt
-
 COPY sbin/ /usr/local/sbin/
-COPY dehydrated/ /etc/dehydrated/
 COPY nginx/ /etc/nginx/
-COPY dehydrated.crontab /etc/cron.d/dehydrated
 COPY entrypoint.sh /entrypoint.sh
 
 STOPSIGNAL SIGTERM
